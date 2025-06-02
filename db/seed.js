@@ -14,10 +14,10 @@ async function seed() {
   for (const folderName of folderNames) {
     const folder = await createFolder(folderName);
 
-    for (let i = 1; i <=100; i++) {
+    for (let i = 1; i <=10; i++) {
       await createFiles({
         name: `file${i}.txt`,
-        size: i * 100, 
+        size: i * 10, 
         folder_id: folder.id
       });
     }

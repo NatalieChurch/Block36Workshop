@@ -22,7 +22,26 @@ export async function getFolders() {
 };
 
 
-export async function getFilesByFolders(folder_id) {
+export async function getFiles() {
+    const result = await db.query('SELECT files.*, folders.name AS folder_name FROM files JOIN folders ON files.folder_id = folders.id');
+    return result.rows;
+};
+
+
+export async function getFolderById(id) {
+    const folderResult = await db.query('SELECT * FROM folders WHERE id = $1;', [id]);
+    const folder = folderResult.rows[0];
+    if (!folder) return undefined;
+
+    const filesResult = await db.query('SELECT * FROM files WHERE folder_id = $1;', [id]);
+    folder.files = filesResult.rows;
+
+    return folder;
+};
+
+
+//Edit below?
+export async function getFilesByFolderId(folder_id) {
     const result = await db.query('SELECT * FROM files WHERE folder_id = $1;', [folder_id]);
     return result.rows;
 };
